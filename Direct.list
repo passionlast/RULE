@@ -3,22 +3,14 @@
 # MyList
 # 域名后缀匹配
 DOMAIN-SUFFIX,bing.com
-DOMAIN-SUFFIX,boxsai.com
-DOMAIN-SUFFIX,closeai.biz
 DOMAIN-SUFFIX,douyuex.com
-DOMAIN-SUFFIX,immersivetranslate.com
-DOMAIN-SUFFIX,ipa.store
 DOMAIN-SUFFIX,openwrt.ai
-DOMAIN-SUFFIX,sharedchat.fun
-DOMAIN-SUFFIX,ylsagi.io
-DOMAIN-SUFFIX,ntp.org
 
 # 域名关键字匹配
-DOMAIN-KEYWORD,samsung
-DOMAIN-KEYWORD,riot
+
 
 # IP段匹配
-IP-CIDR,219.146.1.66/32,no-resolve
+
 
 # 国内DNS
 DOMAIN-SUFFIX,dns.alidns.com
