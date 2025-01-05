@@ -46,9 +46,18 @@ convert_txt_to_list('apple.txt', 'apple.list')" > convert_script.py
           # 输出 Python 脚本内容，以确保它正确保存
           cat convert_script.py
 
-      # 5. 执行 Python 脚本进行转换
+      # 5. 执行 Python 脚本进行转换并捕获错误
       - name: Run Python script to convert apple.txt to apple.list
-        run: python3 convert_script.py
+        run: |
+          python3 convert_script.py || { echo 'Python script failed'; exit 1; }
 
       # 6. 使用 Git 提交并推送转换后的文件
-      -
+      - name: Commit and push converted apple.list file
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add apple.list
+          git commit -m "Update apple.list from apple.txt"
+          
+          # 使用 GITHUB_TOKEN 进行身份验证推送
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
