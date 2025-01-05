@@ -50,7 +50,7 @@ convert_txt_to_list('apple.txt', 'apple.list')
       - name: Run Python script to convert apple.txt to apple.list
         run: python3 convert_script.py
 
-      # 6. 使用 git 提交转换后的文件
+      # 6. 使用 Git 提交并推送转换后的文件
       - name: Commit and push converted apple.list file
         run: |
           git config user.name "GitHub Actions"
@@ -58,5 +58,5 @@ convert_txt_to_list('apple.txt', 'apple.list')
           git add apple.list
           git commit -m "Update apple.list from apple.txt"
           
-          # 使用 GH_TOKEN 进行身份验证推送
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+          # 使用 GITHUB_TOKEN 进行身份验证推送
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
