@@ -1,6 +1,5 @@
 name: Daily Clash Rule Converter
 
-# 设置定时任务（每天执行一次）
 on:
   schedule:
     - cron: '0 0 * * *'  # 每天 UTC 时间 0 点执行（可以根据需要调整时间）
@@ -26,11 +25,10 @@ jobs:
         with:
           python-version: '3.9'
 
-      # 4. 将 Python 脚本保存到文件中
+      # 4. 将 Python 脚本保存到文件中并检查内容
       - name: Save Python script
         run: |
-          echo "
-import os
+          echo "import os
 
 def convert_txt_to_list(txt_file, list_file):
     with open(txt_file, 'r', encoding='utf-8') as txt_f:
@@ -43,20 +41,14 @@ def convert_txt_to_list(txt_file, list_file):
                 list_f.write(line + '\\n')
 
 # 执行转换
-convert_txt_to_list('apple.txt', 'apple.list')
-          " > convert_script.py
+convert_txt_to_list('apple.txt', 'apple.list')" > convert_script.py
+
+          # 输出 Python 脚本内容，以确保它正确保存
+          cat convert_script.py
 
       # 5. 执行 Python 脚本进行转换
       - name: Run Python script to convert apple.txt to apple.list
         run: python3 convert_script.py
 
       # 6. 使用 Git 提交并推送转换后的文件
-      - name: Commit and push converted apple.list file
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git add apple.list
-          git commit -m "Update apple.list from apple.txt"
-          
-          # 使用 GITHUB_TOKEN 进行身份验证推送
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+      -
