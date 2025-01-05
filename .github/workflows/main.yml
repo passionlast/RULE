@@ -1,0 +1,58 @@
+name: Daily Clash Rule Converter
+
+# 设置定时任务（每天执行一次）
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 UTC 时间 0 点执行（可以根据需要调整时间）
+  workflow_dispatch:  # 允许手动触发工作流
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Checkout 仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. 下载 Clash 规则文件（apple.txt）
+      - name: Download apple.txt
+        run: |
+          curl -o apple.txt https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/apple.txt
+
+      # 3. 设置 Python 环境
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      # 4. 执行转换脚本
+      - name: Convert apple.txt to apple.list
+        run: |
+          # 创建 Python 脚本进行转换
+          python3 -c "
+import os
+
+def convert_txt_to_list(txt_file, list_file):
+    with open(txt_file, 'r', encoding='utf-8') as txt_f:
+        lines = txt_f.readlines()
+    
+    with open(list_file, 'w', encoding='utf-8') as list_f:
+        for line in lines:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                list_f.write(line + '\n')
+
+# 执行转换
+convert_txt_to_list('apple.txt', 'apple.list')
+          "
+
+      # 5. 提交并推送转换后的文件
+      - name: Commit converted apple.list file
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'GitHub Actions'
+          author_email: 'github-actions@users.noreply.github.com'
+          message: 'Update apple.list from apple.txt'
+          add: 'apple.list'  # 推送转换后的文件
+
