@@ -58,5 +58,5 @@ convert_txt_to_list('apple.txt', 'apple.list')
           git add apple.list
           git commit -m "Update apple.list from apple.txt"
           
-          # 使用 GH_TOKEN 进行身份验证
+          # 使用 GH_TOKEN 进行身份验证推送
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
