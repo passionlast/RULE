@@ -26,11 +26,10 @@ jobs:
         with:
           python-version: '3.9'
 
-      # 4. 执行转换脚本
-      - name: Convert apple.txt to apple.list
+      # 4. 将 Python 脚本保存到文件中
+      - name: Save Python script
         run: |
-          # 创建 Python 脚本进行转换
-          python3 -c "
+          echo "
 import os
 
 def convert_txt_to_list(txt_file, list_file):
@@ -41,13 +40,17 @@ def convert_txt_to_list(txt_file, list_file):
         for line in lines:
             line = line.strip()
             if line and not line.startswith('#'):
-                list_f.write(line + '\n')
+                list_f.write(line + '\\n')
 
 # 执行转换
 convert_txt_to_list('apple.txt', 'apple.list')
-          "
+          " > convert_script.py
 
-      # 5. 提交并推送转换后的文件
+      # 5. 执行 Python 脚本进行转换
+      - name: Run Python script to convert apple.txt to apple.list
+        run: python3 convert_script.py
+
+      # 6. 提交并推送转换后的文件
       - name: Commit converted apple.list file
         uses: EndBug/add-and-commit@v9
         with:
@@ -55,4 +58,3 @@ convert_txt_to_list('apple.txt', 'apple.list')
           author_email: 'github-actions@users.noreply.github.com'
           message: 'Update apple.list from apple.txt'
           add: 'apple.list'  # 推送转换后的文件
-
