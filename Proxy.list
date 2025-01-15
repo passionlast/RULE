@@ -6,6 +6,7 @@ DOMAIN-SUFFIX,access.mypikpak.com
 # 域名关键字匹配
 DOMAIN-KEYWORD,binance
 DOMAIN-KEYWORD,bnappweb
+DOMAIN-KEYWORD,fuliba
 
 # IP段匹配
 IP-CIDR,66.94.0.0/19,no-resolve
